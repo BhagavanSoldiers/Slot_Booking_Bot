@@ -121,7 +121,19 @@
         </div>
       </section>
 
-      <section class="card section-card">
+      <section id="previewPanel" class="card section-card hidden">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">SCAN RESULTS</p>
+            <h2>Availability overview</h2>
+            <p class="muted">Read-only results from the live Saveetha booking page.</p>
+          </div>
+          <div class="scan-summary"><b id="sessionCount">0</b><span>sessions found</span></div>
+        </div>
+        <div id="previewTable" class="preview-table"></div>
+      </section>
+
+      <section id="configPanel" class="card section-card hidden">
         <div class="section-title">
           <div>
             <p class="eyebrow">STEP 2</p>
@@ -157,6 +169,8 @@
           </div>
         </div>
 
+        <div class="config-hint"><span>✓</span><div><b>Preview is complete.</b><small>Choose one event, arrange your priorities, then test the exact selection before booking.</small></div></div>
+
         <div class="monitor-row">
           <label class="switch">
             <input id="monitor" type="checkbox" checked>
@@ -166,7 +180,7 @@
         </div>
       </section>
 
-      <section class="card section-card">
+      <section id="testPanel" class="card section-card hidden">
         <div class="section-title">
           <div>
             <p class="eyebrow">STEP 3</p>
@@ -181,7 +195,7 @@
         <div id="selection" class="selection empty">No test selection yet.</div>
       </section>
 
-      <section class="card booking-card">
+      <section id="bookPanel" class="card booking-card hidden">
         <div>
           <p class="eyebrow">STEP 4</p>
           <h2>Ready to book?</h2>

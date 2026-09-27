@@ -152,3 +152,38 @@ pre { margin:0; min-height:170px; max-height:340px; overflow:auto; padding:15px;
 footer { text-align:center; color:#9aa4b3; font-size:11px; padding-top:8px; }
 @media(max-width:900px) { .agent-connect-body { grid-template-columns:1fr; gap:16px; } .login-layout { grid-template-columns:1fr; gap:30px; min-height:auto; padding:24px 0 50px; } .brand-panel h1 { font-size:44px; } .login-card { justify-self:stretch; max-width:520px; } .three,.priority-grid { grid-template-columns:1fr; } .booking-card { align-items:flex-start; flex-direction:column; } }
 @media(max-width:620px) { .shell { width:min(94vw,560px); } .agent-connect { padding:18px; } .agent-connect-row { grid-template-columns:1fr; } .agent-connect-row button { width:100%; } .topbar { align-items:flex-start; } .top-actions { flex-direction:column; align-items:flex-end; } .steps { justify-content:flex-start; overflow:auto; } .step-line { min-width:25px; } .date-input-wrap,.monitor-row { flex-direction:column; align-items:stretch; } .booking-actions { width:100%; } .booking-actions button { flex:1; } .slot { grid-template-columns:28px 1fr; } .slot-status { grid-column:2; width:max-content; } .brand-panel h1 { font-size:38px; } }
+
+/* Dashboard refinements */
+.hidden { display:none !important; }
+.scan-summary { min-width:96px; padding:10px 14px; border:1px solid var(--line); border-radius:13px; background:#fbfcfe; text-align:center; }
+.scan-summary b { display:block; color:var(--primary); font-size:21px; line-height:1.1; }
+.scan-summary span { color:#8b95a5; font-size:10px; font-weight:800; }
+.preview-table { border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#fff; }
+.preview-head,.preview-row { display:grid; grid-template-columns:100px minmax(150px,1.5fr) minmax(125px,1fr) 110px 120px; gap:12px; align-items:center; }
+.preview-head { padding:10px 13px; background:#f7f8fb; color:#8791a1; font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.06em; }
+.preview-row { padding:11px 13px; border-top:1px solid #edf0f4; color:#536075; font-size:11px; }
+.preview-row > span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.preview-event { color:#27344b; font-weight:800; }
+.preview-date { font-weight:800; color:#3e4d68; }
+.preview-empty { padding:24px; text-align:center; color:#929cab; font-size:12px; }
+.status-bookable { background:#e6f8ec; color:#17713e; }
+.status-opening-soon { background:#fff3d6; color:#946200; }
+.status-booking-closed,.status-closed { background:#fdebea; color:#b42d29; }
+.status-waitlist-open { background:#eeeaff; color:#6250a8; }
+.status-already-booked { background:#e4f1ff; color:#2e5e94; }
+.config-hint { display:flex; gap:10px; align-items:flex-start; margin-top:20px; padding:12px 14px; border-radius:12px; background:#f5f7ff; border:1px solid #e1e6ff; color:#48557a; }
+.config-hint > span { width:22px; height:22px; display:grid; place-items:center; border-radius:50%; background:#e8edff; color:#4058c3; font-size:11px; font-weight:900; flex:none; }
+.config-hint div { display:grid; gap:2px; }
+.config-hint b { font-size:12px; }
+.config-hint small { font-size:11px; color:#78849a; line-height:1.45; }
+
+@media(max-width:900px) {
+  .preview-head { display:none; }
+  .preview-row { grid-template-columns:1fr 1fr; gap:8px 14px; }
+  .preview-row > span:nth-child(2) { grid-column:1 / -1; }
+}
+@media(max-width:620px) {
+  .preview-row { grid-template-columns:1fr; gap:7px; }
+  .preview-row > span:nth-child(2) { grid-column:auto; }
+  .scan-summary { min-width:76px; }
+}

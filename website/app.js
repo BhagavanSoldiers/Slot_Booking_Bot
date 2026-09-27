@@ -15,6 +15,51 @@ function authHeaders() {
   return agentToken ? {"X-Agent-Token": agentToken} : {};
 }
 
+function todayIso() {
+  const d = new Date();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${m}-${day}`;
+}
+
+function statusClass(status) {
+  return String(status || "unknown").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+function renderPreviewSlots(slots) {
+  const panel = $("previewPanel");
+  const box = $("previewTable");
+  $("sessionCount").textContent = slots.length;
+  panel.classList.toggle("hidden", !slots.length);
+  if (!slots.length) {
+    box.innerHTML = `<div class="preview-empty">No sessions were detected for the selected dates.</div>`;
+    return;
+  }
+  box.innerHTML = `
+    <div class="preview-head"><span>Date</span><span>Event</span><span>Time</span><span>Venue</span><span>Status</span></div>
+    ${slots.map(s => `
+      <div class="preview-row">
+        <span class="preview-date">${escapeHtml(s.date)}</span>
+        <span class="preview-event">${escapeHtml(s.title)}</span>
+        <span>${escapeHtml(s.session)}</span>
+        <span>Venue ${escapeHtml(s.venue || "—")}</span>
+        <span class="slot-status status-${statusClass(s.status)}">${escapeHtml(s.status)}</span>
+      </div>`).join("")}`;
+}
+
+function updatePanels(s) {
+  const ready = ["ready", "tested", "booking", "completed", "stopped"].includes(s.status);
+  const hasPreview = (s.preview_slots || []).length > 0;
+  $("configPanel").classList.toggle("hidden", !ready && !hasPreview);
+  $("testPanel").classList.toggle("hidden", !ready && !hasPreview);
+  $("bookPanel").classList.toggle("hidden", !["tested", "booking", "completed", "stopped"].includes(s.status));
+  renderPreviewSlots(s.preview_slots || []);
+  const steps = document.querySelectorAll(".steps .step");
+  let active = s.status === "tested" || s.status === "booking" || s.status === "completed" ? 2 : (ready || hasPreview ? 1 : 0);
+  if (s.status === "booking" || s.status === "completed") active = 3;
+  steps.forEach((el, i) => el.classList.toggle("active", i === active));
+}
+
 function renderDates() {
   $("dateList").innerHTML = dates.length
     ? dates.map((d, i) => `<span class="chip"><span>${escapeHtml(d)}</span><button onclick="removeDate(${i})" aria-label="Remove date">×</button></span>`).join("")
@@ -73,6 +118,10 @@ function renderState(s) {
     $("agentConnect").classList.remove("hidden");
     $("loginView").classList.remove("hidden");
     $("appView").classList.add("hidden");
+    $("configPanel").classList.add("hidden");
+    $("testPanel").classList.add("hidden");
+    $("bookPanel").classList.add("hidden");
+    $("previewPanel").classList.add("hidden");
     return;
   }
   // The local-agent connection card is only needed before the Saveetha login session.
@@ -94,6 +143,7 @@ function renderState(s) {
     testPassed = false;
     $("start").disabled = true;
   }
+  updatePanels(s);
 }
 
 async function api(path, options = {}) {
@@ -192,6 +242,10 @@ $("logout").onclick = async () => {
   $("start").disabled = true;
   $("username").value = "";
   $("password").value = "";
+  $("previewPanel").classList.add("hidden");
+  $("configPanel").classList.add("hidden");
+  $("testPanel").classList.add("hidden");
+  $("bookPanel").classList.add("hidden");
   refreshState();
 };
 
@@ -274,6 +328,7 @@ $("stop").onclick = async () => {
   await api("/api/stop", {method:"POST"}).catch(e => alert(e.message));
 };
 
+$("dates").min = todayIso();
 renderDates();
 if (agentToken) {
   $("agentToken").value = agentToken;
