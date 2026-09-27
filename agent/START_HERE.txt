@@ -1,12 +1,16 @@
 SAVEETHA BOOKING ASSISTANT - LOCAL AGENT
 
-1. Extract this folder anywhere on your Windows PC.
-2. Double-click: Start Saveetha Agent.bat
-3. The first run installs the required Python packages and Playwright Chromium.
-4. Keep the black terminal window open.
-5. Copy the Agent token shown in that window.
-6. Open the Saveetha Booking Assistant website and paste the token.
+FIRST TIME:
+1. Install Python 3.11 or newer if it is not already installed.
+2. Double-click "Start Saveetha Agent.bat".
+3. Wait while the agent creates its local environment and installs dependencies/Chromium.
+4. Copy the Agent token shown in the terminal into the website.
 
-Your Saveetha username and password are entered in the website and are kept only for the current local agent session.
+EVERY LATER TIME:
+1. Double-click "Start Saveetha Agent.bat" again.
+2. The existing environment is reused.
+3. Python packages and Chromium are NOT downloaded again.
+4. Copy the new Agent token into the website if the agent generated a new one.
 
-Do not share your Agent token with anyone.
+Keep the terminal window open while using the website.
+Do not put your Saveetha password in this folder or upload it to GitHub.
