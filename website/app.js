@@ -70,10 +70,13 @@ function renderState(s) {
   setStatus(s.status || "logged_out");
   const loggedIn = !!s.logged_in;
   if (!loggedIn) {
+    $("agentConnect").classList.remove("hidden");
     $("loginView").classList.remove("hidden");
     $("appView").classList.add("hidden");
     return;
   }
+  // The local-agent connection card is only needed before the Saveetha login session.
+  $("agentConnect").classList.add("hidden");
   $("loginView").classList.add("hidden");
   $("appView").classList.remove("hidden");
 
@@ -170,6 +173,7 @@ $("loginForm").onsubmit = async (e) => {
     });
     $("password").value = "";
     renderState(data.state);
+    $("agentConnect").classList.add("hidden");
   } catch (err) {
     error.textContent = err.message;
   } finally {
@@ -181,6 +185,7 @@ $("loginForm").onsubmit = async (e) => {
 $("logout").onclick = async () => {
   if (!confirm("Log out and close the Saveetha browser session?")) return;
   await api("/api/logout", {method:"POST"}).catch(() => {});
+  $("agentConnect").classList.remove("hidden");
   dates = [];
   renderDates();
   testPassed = false;

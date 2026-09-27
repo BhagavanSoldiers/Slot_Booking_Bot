@@ -39,9 +39,25 @@ h3 { font-size:15px; margin-bottom:0; }
 .stop { color:#fff; background:var(--danger); }
 .wide { width:100%; }
 
+
+/* Local agent connection */
+.agent-connect { padding:22px 25px; margin-bottom:24px; }
+.agent-connect-head { display:flex; align-items:flex-start; gap:14px; }
+.agent-badge { width:38px; height:38px; flex:none; display:grid; place-items:center; border-radius:11px; background:#eef2ff; color:var(--primary); font-size:11px; font-weight:900; }
+.agent-connect-head h2 { font-size:20px; }
+.agent-connect-body { display:grid; grid-template-columns:minmax(220px,.72fr) minmax(420px,1.28fr); gap:24px; align-items:end; margin-top:18px; padding-top:18px; border-top:1px solid var(--line); }
+.agent-download { display:flex; flex-direction:column; gap:7px; }
+.download-btn { display:inline-flex; align-items:center; justify-content:center; text-decoration:none; white-space:nowrap; }
+.download-note { color:#8b95a5; font-size:11px; }
+.agent-token-area label { margin-bottom:6px; }
+.agent-connect-row { display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:8px; align-items:center; }
+.agent-status-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; min-height:20px; margin-top:8px; color:#657287; font-size:12px; }
+.agent-status-row .error-text { min-height:0; }
+.agent-connect.connected { border-color:#b9e4ca; box-shadow:0 18px 55px rgba(34,84,58,.08); }
+
 /* Login */
-.login-layout { min-height:calc(100vh - 94px); display:grid; grid-template-columns:1.15fr .85fr; gap:70px; align-items:center; }
-.brand-panel { padding:25px 0; }
+.login-layout { min-height:calc(100vh - 210px); display:grid; grid-template-columns:minmax(0,1fr) 420px; gap:64px; align-items:center; padding:24px 18px 55px; }
+.brand-panel { padding:10px 0; }
 .brand-mark { width:48px; height:48px; display:grid; place-items:center; border-radius:14px; color:white; background:linear-gradient(135deg,#243a9d,#5671f0); font-weight:900; font-size:22px; box-shadow:0 12px 28px rgba(52,87,232,.22); margin-bottom:26px; }
 .brand-mark.small { width:40px; height:40px; border-radius:12px; font-size:18px; margin:0; flex:none; }
 .brand-panel h1 { max-width:590px; font-size:58px; margin-top:14px; }
@@ -134,5 +150,5 @@ input:focus,select:focus { border-color:#91a3f6; box-shadow:0 0 0 4px rgba(52,87
 .live-dot i { width:7px; height:7px; border-radius:50%; background:#2bbf67; box-shadow:0 0 0 4px rgba(43,191,103,.1); }
 pre { margin:0; min-height:170px; max-height:340px; overflow:auto; padding:15px; border-radius:14px; background:#111722; color:#d9e0eb; font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; white-space:pre-wrap; }
 footer { text-align:center; color:#9aa4b3; font-size:11px; padding-top:8px; }
-@media(max-width:900px) { .login-layout { grid-template-columns:1fr; gap:30px; padding-top:20px; } .brand-panel h1 { font-size:44px; } .login-card { justify-self:start; } .three,.priority-grid { grid-template-columns:1fr; } .booking-card { align-items:flex-start; flex-direction:column; } }
-@media(max-width:620px) { .shell { width:min(94vw,560px); } .topbar { align-items:flex-start; } .top-actions { flex-direction:column; align-items:flex-end; } .steps { justify-content:flex-start; overflow:auto; } .step-line { min-width:25px; } .date-input-wrap,.monitor-row { flex-direction:column; align-items:stretch; } .booking-actions { width:100%; } .booking-actions button { flex:1; } .slot { grid-template-columns:28px 1fr; } .slot-status { grid-column:2; width:max-content; } .brand-panel h1 { font-size:38px; } }
+@media(max-width:900px) { .agent-connect-body { grid-template-columns:1fr; gap:16px; } .login-layout { grid-template-columns:1fr; gap:30px; min-height:auto; padding:24px 0 50px; } .brand-panel h1 { font-size:44px; } .login-card { justify-self:stretch; max-width:520px; } .three,.priority-grid { grid-template-columns:1fr; } .booking-card { align-items:flex-start; flex-direction:column; } }
+@media(max-width:620px) { .shell { width:min(94vw,560px); } .agent-connect { padding:18px; } .agent-connect-row { grid-template-columns:1fr; } .agent-connect-row button { width:100%; } .topbar { align-items:flex-start; } .top-actions { flex-direction:column; align-items:flex-end; } .steps { justify-content:flex-start; overflow:auto; } .step-line { min-width:25px; } .date-input-wrap,.monitor-row { flex-direction:column; align-items:stretch; } .booking-actions { width:100%; } .booking-actions button { flex:1; } .slot { grid-template-columns:28px 1fr; } .slot-status { grid-column:2; width:max-content; } .brand-panel h1 { font-size:38px; } }

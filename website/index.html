@@ -12,17 +12,29 @@
 
   <main class="shell">
     <section id="agentConnect" class="card agent-connect">
-      <div>
-        <p class="eyebrow">LOCAL AGENT</p>
-        <h2>Connect your computer</h2>
-        <p class="muted">Start <b>agent/run_agent.bat</b> on this computer, then paste the token shown in its terminal.</p>
+      <div class="agent-connect-head">
+        <div class="agent-badge">01</div>
+        <div>
+          <p class="eyebrow">LOCAL AGENT</p>
+          <h2>Connect this computer</h2>
+          <p class="muted">The agent runs Playwright on this computer. Download it once, start it, then paste the token shown in its terminal.</p>
+        </div>
       </div>
-      <div class="agent-connect-row">
-        <input id="agentToken" type="password" autocomplete="off" placeholder="Paste Agent token">
-        <button id="connectAgent" class="primary">Connect</button>
-        <button id="clearAgent" class="ghost" type="button">Clear</button>
+      <div class="agent-connect-body">
+        <div class="agent-download">
+          <a class="secondary download-btn" href="/local-agent.zip" download>↓ Download Local Agent</a>
+          <span class="download-note">Windows · first-time setup included</span>
+        </div>
+        <div class="agent-token-area">
+          <label for="agentToken"><span>Agent token</span></label>
+          <div class="agent-connect-row">
+            <input id="agentToken" type="password" autocomplete="off" placeholder="Paste the token from the agent window">
+            <button id="connectAgent" class="primary">Connect</button>
+            <button id="clearAgent" class="ghost" type="button">Clear</button>
+          </div>
+          <div class="agent-status-row"><span id="agentStatus">Agent not connected</span><span id="agentError" class="error-text"></span></div>
+        </div>
       </div>
-      <div class="agent-status-row"><span id="agentStatus">Agent not connected</span><span id="agentError" class="error-text"></span></div>
     </section>
 
     <section id="loginView" class="login-layout">
