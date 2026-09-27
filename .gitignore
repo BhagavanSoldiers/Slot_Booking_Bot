@@ -1,0 +1,13 @@
+# Local agent
+agent/.venv/
+agent/__pycache__/
+*.pyc
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Secrets / local configuration
+.env
+*.log
