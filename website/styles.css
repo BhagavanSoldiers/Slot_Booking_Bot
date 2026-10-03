@@ -154,3 +154,23 @@ footer { text-align:center; color:#9aa4b3; font-size:11px; padding-top:8px; }
 @media(max-width:620px) { .shell { width:min(94vw,560px); } .agent-connect { padding:18px; } .agent-connect-row { grid-template-columns:1fr; } .agent-connect-row button { width:100%; } .topbar { align-items:flex-start; } .top-actions { flex-direction:column; align-items:flex-end; } .steps { justify-content:flex-start; overflow:auto; } .step-line { min-width:25px; } .date-input-wrap,.monitor-row { flex-direction:column; align-items:stretch; } .booking-actions { width:100%; } .booking-actions button { flex:1; } .slot { grid-template-columns:28px 1fr; } .slot-status { grid-column:2; width:max-content; } .brand-panel h1 { font-size:38px; } }
 
 .embedded-hint{display:flex;align-items:center;gap:9px;padding:10px 13px;margin-bottom:12px;border:1px solid #dfe5f0;border-radius:12px;background:#f7f9fd;color:#536176;font-size:11px}.embedded-hint span{color:#8a94a5}
+
+/* Single-window desktop agent */
+.embedded-hint {
+  display:flex; align-items:center; gap:10px; margin:0 0 14px; padding:10px 13px;
+  border:1px solid #d9e1f1; border-radius:12px; background:#f8faff; color:#4f5d73; font-size:12px;
+}
+.embedded-hint b { display:block; color:#263247; font-size:12px; margin-bottom:2px; }
+.embedded-hint span:last-child { display:block; color:#7b8799; }
+.embedded-dot { width:8px; height:8px; border-radius:50%; background:#2da86b; box-shadow:0 0 0 4px #e3f6eb; flex:none; }
+html.embedded-mode, html.embedded-mode body { height:100%; overflow:auto; }
+html.embedded-mode .shell { width:min(760px,100%); padding:18px 18px 28px; }
+html.embedded-mode .bg-orb { opacity:.18; }
+html.embedded-mode .login-layout { min-height:auto; grid-template-columns:1fr; gap:20px; padding:10px 0 28px; }
+html.embedded-mode .brand-panel { display:none; }
+html.embedded-mode .login-card { max-width:none; justify-self:stretch; }
+html.embedded-mode .app-view { padding-bottom:18px; }
+html.embedded-mode .topbar { position:sticky; top:0; z-index:10; }
+@media (max-width: 700px) {
+  html.embedded-mode .shell { width:100%; padding:12px; }
+}

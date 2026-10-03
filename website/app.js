@@ -1,4 +1,5 @@
 const EMBEDDED = new URLSearchParams(location.search).get('embedded') === '1';
+if (EMBEDDED) document.documentElement.classList.add('embedded-mode');
 const AGENT_URL = EMBEDDED ? '' : 'http://127.0.0.1:8765';
 const $ = (id) => document.getElementById(id);
 
@@ -129,7 +130,7 @@ async function connectAgent() {
   } catch (e) {
     localStorage.removeItem('saveetha_agent_token');
     agentToken = '';
-    $("agentError").textContent = "Could not connect. Make sure run_agent.bat is running and the token is correct.";
+    $("agentError").textContent = "Could not connect to the local agent. Start the Saveetha Agent application and try again.";
     $("agentStatus").textContent = "Agent not connected";
   }
 }
