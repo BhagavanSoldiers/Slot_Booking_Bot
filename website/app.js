@@ -78,6 +78,8 @@ function setStatus(status) {
 }
 
 function renderState(s) {
+  if (s) updateFlowStep(s.running ? 3 : (state.testPassed ? 2 : (state.dates.length ? 1 : 0)));
+
   state = s;
   setStatus(s.status || "logged_out");
   const loggedIn = !!s.logged_in;

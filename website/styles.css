@@ -152,3 +152,35 @@ footer{text-align:center;color:#596781;font-size:10px;margin-top:20px}
   .shell{width:min(100% - 18px,1180px);margin:10px auto 30px}.brand-panel{padding:30px 22px}.brand-panel h1{font-size:39px}.lead{font-size:14px}.login-card{padding:26px 20px}.agent-connect{padding:18px}.agent-connect-row{flex-wrap:wrap}.agent-connect-row input{min-width:100%}.agent-connect-row button{flex:1}.steps{overflow:auto}.section-card{padding:20px 16px}.slot{grid-template-columns:30px 1fr}.slot-status{grid-column:2;justify-self:start}.booking-actions{flex-direction:column}.booking-actions button{width:100%}.topbar{flex-direction:column}.top-actions{width:100%;flex-direction:row;justify-content:space-between;align-items:center}.brand-inline h1{font-size:19px}}
 
 .browser-pill{color:#a5f3fc!important;background:rgba(34,211,238,.07)!important;border-color:rgba(34,211,238,.16)!important}
+
+/* Premium dynamic UI layer — layout preserved */
+:root{--ui-purple:#8b5cf6;--ui-violet:#a78bfa;--ui-cyan:#22d3ee;--ui-blue:#38bdf8;--ui-green:#34d399;--ui-border:rgba(148,163,184,.14);--ui-shadow:0 22px 70px rgba(0,0,0,.32)}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(900px 520px at 8% -8%,rgba(139,92,246,.20),transparent 62%),radial-gradient(760px 500px at 94% 8%,rgba(34,211,238,.13),transparent 62%),radial-gradient(700px 500px at 50% 110%,rgba(56,189,248,.08),transparent 68%),linear-gradient(145deg,#050814,#091126);background-attachment:fixed}
+body::before,body::after{content:"";position:fixed;pointer-events:none;z-index:-1;border-radius:999px;filter:blur(70px);opacity:.24;animation:ambientFloat 12s ease-in-out infinite alternate}
+body::before{width:260px;height:260px;left:-90px;top:34%;background:rgba(139,92,246,.32)}
+body::after{width:220px;height:220px;right:-70px;top:62%;background:rgba(34,211,238,.24);animation-delay:-5s}
+.card,.login-card,.brand-panel,.agent-card,.activity-card,.step-card{border-color:var(--ui-border);box-shadow:var(--ui-shadow);transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s ease,box-shadow .35s ease,background .35s ease}
+.card:hover,.login-card:hover,.agent-card:hover,.activity-card:hover,.step-card:hover{border-color:rgba(139,92,246,.28);box-shadow:0 28px 85px rgba(0,0,0,.36),0 0 42px rgba(139,92,246,.055)}
+button,input,select,textarea{transition:transform .2s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease,opacity .25s ease}
+button:not(:disabled):active{transform:translateY(1px) scale(.985)}
+button:not(:disabled):focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(139,92,246,.14),0 0 24px rgba(34,211,238,.08)}
+.priority-item,.priority-row,.time-priority-item,.venue-priority-item{transition:transform .25s cubic-bezier(.2,.8,.2,1),opacity .25s ease,border-color .25s ease,background .25s ease}
+.priority-item:hover,.priority-row:hover,.time-priority-item:hover,.venue-priority-item:hover{transform:translateX(3px);border-color:rgba(34,211,238,.22)}
+.status-badge,#statusBadge{transition:color .25s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease}
+[data-status="running"] .status-badge,[data-status="running"] #statusBadge{box-shadow:0 0 0 4px rgba(34,211,238,.05),0 0 28px rgba(34,211,238,.15);animation:statusPulse 1.8s ease-in-out infinite}
+.scan-active{animation:softGlow 1.6s ease-in-out infinite alternate}
+.is-loading{pointer-events:none;opacity:.72;position:relative}
+.is-loading::after{content:"";width:14px;height:14px;margin-left:8px;display:inline-block;vertical-align:-2px;border:2px solid rgba(255,255,255,.28);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite}
+.success-flash{animation:successFlash .7s ease}.error-shake{animation:errorShake .42s ease}.step.current{animation:stepEnter .4s ease both}.step.done{filter:saturate(1.08)}
+#selectionList,#activityLog,.priority-list{scrollbar-width:thin;scrollbar-color:rgba(139,92,246,.45) transparent}
+#selectionList::-webkit-scrollbar,#activityLog::-webkit-scrollbar,.priority-list::-webkit-scrollbar{width:7px}
+#selectionList::-webkit-scrollbar-thumb,#activityLog::-webkit-scrollbar-thumb,.priority-list::-webkit-scrollbar-thumb{background:linear-gradient(var(--ui-purple),var(--ui-cyan));border-radius:999px}
+@keyframes ambientFloat{from{transform:translate3d(0,-10px,0) scale(1)}to{transform:translate3d(12px,18px,0) scale(1.08)}}
+@keyframes softGlow{from{box-shadow:0 0 0 rgba(139,92,246,0)}to{box-shadow:0 0 34px rgba(139,92,246,.13)}}
+@keyframes statusPulse{0%,100%{box-shadow:0 0 0 3px rgba(34,211,238,.04),0 0 18px rgba(34,211,238,.08)}50%{box-shadow:0 0 0 5px rgba(34,211,238,.07),0 0 30px rgba(34,211,238,.16)}}
+@keyframes stepEnter{from{opacity:.45;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@keyframes successFlash{0%{box-shadow:0 0 0 rgba(52,211,153,0)}45%{box-shadow:0 0 38px rgba(52,211,153,.24)}100%{box-shadow:0 0 0 rgba(52,211,153,0)}}
+@keyframes errorShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
