@@ -1,0 +1,16 @@
+SAVEETHA BOOKING ASSISTANT - LOCAL AGENT
+
+FIRST TIME:
+1. Install Python 3.11 or newer if it is not already installed.
+2. Double-click "Start Saveetha Agent.bat".
+3. Wait while the agent creates its local environment and installs dependencies/Chromium.
+4. Copy the Agent token shown in the terminal into the website.
+
+EVERY LATER TIME:
+1. Double-click "Start Saveetha Agent.bat" again.
+2. The existing environment is reused.
+3. Python packages and Chromium are NOT downloaded again.
+4. Copy the new Agent token into the website if the agent generated a new one.
+
+Keep the terminal window open while using the website.
+Do not put your Saveetha password in this folder or upload it to GitHub.
