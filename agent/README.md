@@ -1,10 +1,10 @@
 # Local Agent
 
-The local agent runs FastAPI and Playwright on the student's own Windows computer.
+The local agent runs FastAPI and Playwright on the student's own Windows computer. The Saveetha portal is displayed inside the agent window using Qt WebEngine; Playwright runs headless so no separate Chromium window is opened.
 
 ## Start
 
-Double-click `run_agent.bat`.
+Double-click `Start Saveetha Agent.bat`.
 
 On startup it prints something like:
 
