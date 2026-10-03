@@ -2,30 +2,19 @@
 setlocal EnableExtensions
 cd /d "%~dp0"
 
-title Saveetha Booking Assistant - Local Agent
+title Saveetha Booking Assistant - Single Window
 
 echo ================================================
-echo      Saveetha Booking Assistant - Local Agent
+echo      Saveetha Booking Assistant - Single Window
 echo ================================================
 echo.
 
 set "VENV=.venv"
 set "PY=%VENV%\Scripts\python.exe"
 set "SETUP_MARKER=%VENV%\.saveetha_setup_complete"
-set "QT_MARKER=%VENV%\.saveetha_embedded_ui_complete"
 
-REM First-run setup only
 if not exist "%PY%" goto first_setup
 if not exist "%SETUP_MARKER%" goto first_setup
-if not exist "%QT_MARKER%" goto embedded_ui_setup
-goto start_agent
-
-:embedded_ui_setup
-echo Updating desktop embedded UI dependencies...
-"%PY%" -m pip install -r requirements.txt
-if errorlevel 1 goto setup_failed
->"%QT_MARKER%" echo embedded-ui-complete
-
 goto start_agent
 
 :first_setup
@@ -47,22 +36,21 @@ echo [2/2] Installing Playwright Chromium (first run only)...
 if errorlevel 1 goto setup_failed
 
 >"%SETUP_MARKER%" echo setup-complete
+
 echo.
 echo First-time setup complete.
 
-if not exist "%QT_MARKER%" goto embedded_ui_setup
 goto start_agent
 
 :start_agent
 echo.
-echo Starting local agent (single-window embedded portal)...
-echo Keep this window open while using the website.
+echo Starting single-window Saveetha Booking Assistant...
 echo.
-"%PY%" desktop_app.py
+"%PY%" main.py
 
 if errorlevel 1 (
     echo.
-    echo The local agent stopped because of an error.
+    echo The application stopped because of an error.
     pause
 )
 exit /b 0

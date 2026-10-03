@@ -87,10 +87,10 @@ class BotWorker:
                     result = self.preview(payload)
                 elif command == "test":
                     result = self.test_selection(payload)
-                elif command == "cookies":
-                    result = self.get_cookies()
                 elif command == "start":
                     result = self.start_booking(payload)
+                elif command == "cookies":
+                    result = self.get_cookies()
                 elif command == "shutdown":
                     result = {"ok": True}
                     if reply is not None:
@@ -148,6 +148,10 @@ class BotWorker:
             self.credentials = None
             self.set_state(status="login_failed", logged_in=False)
             raise
+
+    def get_cookies(self):
+        self._require_login()
+        return {"ok": True, "cookies": self.context.cookies()}
 
     def logout(self):
         self.request_stop()
@@ -228,16 +232,6 @@ class BotWorker:
         for s in result:
             self.log(f"  {s['date']} | {s['title']} | {s['session']} | Venue {s['venue']} | {s['status']}")
         return {"ok": True, "selected": result, "logs": self.get_logs(), "state": self.get_state()}
-
-    def get_cookies(self):
-        """Return the current authenticated browser cookies for the embedded UI.
-
-        The Playwright browser remains headless; the desktop shell uses these
-        cookies to display the same authenticated Saveetha session in its
-        embedded Qt WebEngine view.
-        """
-        self._require_login()
-        return {"ok": True, "cookies": self.context.cookies()}
 
     def start_booking(self, payload):
         self._require_login()

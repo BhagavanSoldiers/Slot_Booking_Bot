@@ -1,22 +1,20 @@
-# Local Agent
+# Saveetha Booking Assistant — Single Window Agent
 
-The local agent runs FastAPI and Playwright on the student's own Windows computer. The Saveetha portal is displayed inside the agent window using Qt WebEngine; Playwright runs headless so no separate Chromium window is opened.
+The desktop agent now opens as **one application window**. The booking controls are on the left and the Saveetha learner portal is on the right.
 
 ## Start
 
-Double-click `Start Saveetha Agent.bat`.
+Double-click **Start Saveetha Agent.bat**.
 
-On startup it prints something like:
+The first run creates `.venv`, installs Python packages including PySide6/Qt WebEngine, and installs Playwright Chromium. Later launches reuse the environment.
 
-```text
-Agent token: 4f7b... 
-Local API:  http://127.0.0.1:8765
-```
+You no longer need to paste an agent token when using the embedded single-window UI. The local UI receives a temporary token from the agent itself.
 
-Paste the token into the website's Local Agent connection box.
+## Architecture
 
-## Data handling
+- Left pane: the same booking website UI, served locally by the agent.
+- Right pane: Saveetha learner portal in an embedded Qt WebEngine view.
+- Background: Playwright runs headlessly for automation.
+- After successful Saveetha login, the authenticated Playwright cookies are copied to the embedded portal view.
 
-The agent keeps Saveetha username/password only in RAM for the current session. Logout closes the browser and clears the credentials.
-
-The access token is generated on every launch and is not saved to disk.
+Credentials stay in RAM for the current session and are not written to disk by the agent.
