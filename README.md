@@ -1,33 +1,62 @@
-# Saveetha Booking Assistant — Local Agent Edition
+# Saveetha Booking Assistant — Vercel + Local Agent
 
-A zero-cost local-agent architecture: the website is the UI and the student's own Windows PC runs FastAPI + Playwright.
+This project separates the UI from the browser automation:
+
+```text
+Vercel website
+     |
+     | HTTPS
+     v
+Student's browser
+     |
+     | localhost:8765
+     v
+Local Agent on student's PC
+     |
+     v
+Playwright -> Saveetha learner portal
+```
 
 ## Folders
-- `website/` — colorful modern web UI. Deploy the contents of this folder to Vercel if desired.
-- `local-agent/` — Windows local agent.
-- `website/local-agent.zip` — downloadable copy of the local agent.
 
-## Start
-1. Open `local-agent/`.
-2. Double-click `Start Saveetha Agent.bat`.
-3. On first run, it creates the virtual environment, installs Python packages, and installs Chromium.
-4. Copy the Agent token printed in the terminal.
-5. Open the website and paste the token.
-6. Log in with your own Saveetha credentials.
-7. Select dates → Scan → configure priorities → Test Selection → Start Booking.
+- `website/` — static frontend. Deploy this folder to Vercel.
+- `agent/` — local FastAPI + Playwright agent. Each student runs it on their own PC.
 
-## Browser
-The Playwright Chromium window starts minimized so the Saveetha portal stays out of the way while the bot runs.
+## Important security model
 
-## Credentials
-Never put Saveetha credentials in GitHub, the website source, or this ZIP. They are entered into the website and held by the local agent only for the active session.
+- Saveetha credentials are sent only to `127.0.0.1:8765`.
+- Credentials are kept in memory only for the current local-agent session.
+- The agent does not write credentials to files or return them in API responses.
+- The local agent generates a random access token every time it starts. The user enters that token into the website. The token is required for local API calls.
+- The Saveetha portal URL is fixed inside `agent/bot_dynamic_threadsafe.py`.
+- Do not commit passwords, tokens, `.env` files, browser profiles, or cookies.
 
-## Speed/reliability improvements
-- Reuses the authenticated browser session.
-- Avoids unnecessary scrolling.
-- Uses targeted DOM locators and waits.
-- Keeps the booking page filtered during monitoring instead of resubmitting the filter every cycle.
-- Refreshes after a successful booking and rescans with fresh DOM state before the next booking.
-- Uses a configurable retry interval (minimum 2 seconds).
+## Deploy the website to Vercel
 
-The bot does not bypass CAPTCHAs, authentication protections, rate limits, or other anti-abuse controls.
+1. Create a GitHub repository and upload the project.
+2. In Vercel, import the repository.
+3. Set **Root Directory** to `website`.
+4. Deploy.
+5. The website will be available at your Vercel URL.
+
+No backend is deployed to Vercel. Vercel only serves the static HTML/CSS/JS.
+
+## Run the local agent on Windows
+
+1. Install Python 3.11 or newer.
+2. Double-click `agent/run_agent.bat`.
+3. On the first run it creates `.venv`, installs dependencies, and installs Playwright Chromium.
+4. The terminal prints an `Agent token`.
+5. Open the Vercel website and paste that token into the **Local Agent** connection box.
+6. Sign in with the student's own Saveetha credentials.
+7. Keep the agent terminal open while the bot is being used.
+
+The agent listens only on `127.0.0.1:8765`; it is not exposed directly to the internet.
+
+## Local testing of the website
+
+You can open `website/index.html` directly, but some browsers may restrict localhost requests from `file://`. For local testing, serve the website with any simple static HTTP server, or use the deployed Vercel URL.
+
+## Playwright policy
+
+The bot uses normal browser automation against the Saveetha portal. It does not contain CAPTCHA bypasses, rate-limit bypasses, credential harvesting, or authentication-protection bypasses. Use a reasonable retry interval.

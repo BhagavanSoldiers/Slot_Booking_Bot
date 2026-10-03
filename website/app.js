@@ -27,17 +27,29 @@ window.removeDate = (i) => {
   renderDates();
 };
 
-function priorityControl(container, items) {
+function priorityControl(container, items, preserveOrder = true) {
   const el = $(container);
+  const incoming = [...new Set((items || []).map(String))];
+
+  // State polling must not reset the user's manually chosen priority order.
+  const oldOrder = currentPriority(container);
+  const merged = preserveOrder && oldOrder.length
+    ? [
+        ...oldOrder.filter(x => incoming.includes(x)),
+        ...incoming.filter(x => !oldOrder.includes(x))
+      ]
+    : incoming;
+
   el.innerHTML = "";
-  if (!items.length) {
+  if (!merged.length) {
     el.innerHTML = `<div class="priority-empty">No options detected yet.</div>`;
     return;
   }
-  items.forEach((item, i) => {
+
+  merged.forEach((item, i) => {
     const row = document.createElement("div");
     row.className = "priority-item";
-    row.innerHTML = `<div class="priority-label"><span class="priority-index">${i + 1}</span><span>${escapeHtml(item)}</span></div><div class="move"><button aria-label="Move up" ${i === 0 ? "disabled" : ""}>↑</button><button aria-label="Move down" ${i === items.length - 1 ? "disabled" : ""}>↓</button></div>`;
+    row.innerHTML = `<div class="priority-label"><span class="priority-index">${i + 1}</span><span>${escapeHtml(item)}</span></div><div class="move"><button aria-label="Move up" ${i === 0 ? "disabled" : ""}>↑</button><button aria-label="Move down" ${i === merged.length - 1 ? "disabled" : ""}>↓</button></div>`;
     row.children[1].children[0].onclick = () => move(container, i, -1);
     row.children[1].children[1].onclick = () => move(container, i, 1);
     el.appendChild(row);
@@ -81,12 +93,22 @@ function renderState(s) {
   $("appView").classList.remove("hidden");
 
   const events = s.events || [];
+  const previousEvent = $("event").value;
+
   $("event").innerHTML = events.length
     ? events.map(x => `<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join("")
     : `<option>Run a scan first</option>`;
+
+  if (events.length) {
+    // Preserve the selected event during 1-second state polling.
+    $("event").value = events.includes(previousEvent) ? previousEvent : events[0];
+  }
+
   $("event").disabled = !events.length;
-  priorityControl("times", s.times || []);
-  priorityControl("venues", s.venues || []);
+
+  // Preserve manual Time/Venue priority during state polling.
+  priorityControl("times", s.times || [], true);
+  priorityControl("venues", s.venues || [], true);
   $("test").disabled = !events.length;
   $("stop").disabled = !["booking"].includes(s.status);
 
