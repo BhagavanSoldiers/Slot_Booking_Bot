@@ -6,9 +6,6 @@ let state = null;
 let testPassed = false;
 let lastSelection = [];
 let agentToken = localStorage.getItem('saveetha_agent_token') || '';
-let selectedEvent = '';
-let timePriority = [];
-let venuePriority = [];
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
@@ -29,13 +26,6 @@ window.removeDate = (i) => {
   $("start").disabled = true;
   renderDates();
 };
-
-function mergePriority(existing, available) {
-  const next = [...new Set((available || []).map(String))];
-  const keep = (existing || []).filter(x => next.includes(x));
-  const additions = next.filter(x => !keep.includes(x));
-  return [...keep, ...additions];
-}
 
 function priorityControl(container, items) {
   const el = $(container);
@@ -63,8 +53,6 @@ function move(container, i, delta) {
   const j = i + delta;
   if (j < 0 || j >= arr.length) return;
   [arr[i], arr[j]] = [arr[j], arr[i]];
-  if (container === "times") timePriority = arr;
-  if (container === "venues") venuePriority = arr;
   priorityControl(container, arr);
   testPassed = false;
   $("start").disabled = true;
@@ -78,8 +66,6 @@ function setStatus(status) {
 }
 
 function renderState(s) {
-  if (s) updateFlowStep(s.running ? 3 : (state.testPassed ? 2 : (state.dates.length ? 1 : 0)));
-
   state = s;
   setStatus(s.status || "logged_out");
   const loggedIn = !!s.logged_in;
@@ -98,18 +84,9 @@ function renderState(s) {
   $("event").innerHTML = events.length
     ? events.map(x => `<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join("")
     : `<option>Run a scan first</option>`;
-  if (events.length) {
-    if (!selectedEvent || !events.includes(selectedEvent)) selectedEvent = events[0];
-    $("event").value = selectedEvent;
-  }
   $("event").disabled = !events.length;
-
-  // State polling runs every second. Never rebuild the priority lists from
-  // the backend's default order, or the user's manual ordering would be lost.
-  timePriority = mergePriority(timePriority, s.times || []);
-  venuePriority = mergePriority(venuePriority, s.venues || []);
-  priorityControl("times", timePriority);
-  priorityControl("venues", venuePriority);
+  priorityControl("times", s.times || []);
+  priorityControl("venues", s.venues || []);
   $("test").disabled = !events.length;
   $("stop").disabled = !["booking"].includes(s.status);
 
@@ -142,7 +119,7 @@ async function connectAgent() {
   } catch (e) {
     localStorage.removeItem('saveetha_agent_token');
     agentToken = '';
-    $("agentError").textContent = "Could not connect. Make sure Start Saveetha Agent.bat is running and the token is correct.";
+    $("agentError").textContent = "Could not connect. Make sure run_agent.bat is running and the token is correct.";
     $("agentStatus").textContent = "Agent not connected";
   }
 }
@@ -210,9 +187,6 @@ $("logout").onclick = async () => {
   await api("/api/logout", {method:"POST"}).catch(() => {});
   $("agentConnect").classList.remove("hidden");
   dates = [];
-  selectedEvent = '';
-  timePriority = [];
-  venuePriority = [];
   renderDates();
   testPassed = false;
   $("start").disabled = true;
@@ -229,13 +203,6 @@ $("addDate").onclick = () => {
   testPassed = false;
   $("start").disabled = true;
   renderDates();
-};
-
-
-$("event").onchange = () => {
-  selectedEvent = $("event").value;
-  testPassed = false;
-  $("start").disabled = true;
 };
 
 $("preview").onclick = async () => {
